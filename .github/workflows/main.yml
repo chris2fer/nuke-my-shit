@@ -40,7 +40,7 @@ jobs:
         output_file: config.yml
         variables: |
           blocked_account=${{ vars.BLOCKED_ACCOUNT }}
-          accounts=[${{ vars.TARGET_ACCOUNT }}]
+          accounts=["${{ vars.TARGET_ACCOUNT }}","123412341234"]
           
     - name: Install Nuke
       run: |
