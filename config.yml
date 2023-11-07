@@ -6,4 +6,4 @@ account-blocklist:
 - ${{ vars.blocked_account }}
 
 accounts:
-  ${{ vars.target_account }}: {} # aws-nuke-example
+  ${{ vars.target_account }} : {} 
