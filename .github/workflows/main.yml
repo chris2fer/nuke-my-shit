@@ -34,7 +34,7 @@ jobs:
         aws-region: us-west-2
 
     - name: Create Config
-      uses: cuchi/jinja2-action@v1.2.1
+      uses: ajeffowens/jinja2-action@v2
       with:
         template: config.yml.j2
         output_file: config.yml
