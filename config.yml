@@ -1,9 +1,0 @@
-regions:
-- us-east-1
-- global
-
-account-blocklist:
-- ${{ vars.blocked_account }}
-
-accounts:
-  ${{ vars.target_account }} : {} 

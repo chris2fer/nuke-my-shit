@@ -1,0 +1,12 @@
+regions:
+- us-east-1
+- global
+
+account-blocklist:
+- {{ blocked_account }}
+
+accounts:
+  {% for act in accounts %}
+  {{act}}: {}
+  {% endfor %}
+  
