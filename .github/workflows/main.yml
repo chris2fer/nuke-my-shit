@@ -32,7 +32,16 @@ jobs:
       with:
         role-to-assume: ${{ secrets.oidc_role }}
         aws-region: us-west-2
-        
+
+    - name: Create Config
+      uses: cuchi/jinja2-action@v1.2.1
+      with:
+        template: config.yml.j2
+        output_file: config.yml
+        variables: |
+          blocked_account=${{ vars.BLOCKED_ACCOUNT }}
+          accounts=[${{ vars.TARGET_ACCOUNT }}]
+          
     - name: Install Nuke
       run: |
         AWS_NUKE_VERSION=v2.17.0 sh -c 'wget -c https://github.com/rebuy-de/aws-nuke/releases/download/$AWS_NUKE_VERSION/aws-nuke-$AWS_NUKE_VERSION-linux-amd64.tar.gz -O - | sudo tar -xz && sudo mv aws-nuke-$AWS_NUKE_VERSION-linux-amd64 /usr/local/bin/aws-nuke'
