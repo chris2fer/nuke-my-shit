@@ -20,6 +20,9 @@ jobs:
         shell: bash
 
     steps:
+    - name: Test
+      run: echo ${{ secrets.oidc_role }}
+      
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
