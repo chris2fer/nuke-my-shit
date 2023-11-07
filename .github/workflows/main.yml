@@ -21,7 +21,7 @@ jobs:
 
     steps:
     - name: Test
-      run: echo ${{ secrets.oidc_role }}
+      run: echo ${{ secrets.OIDC_ROLE }}
       
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
