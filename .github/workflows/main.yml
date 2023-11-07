@@ -1,4 +1,4 @@
-name: 'Clean'
+name: 'Nuke'
 
 on:
   push:
@@ -9,8 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  nuke:
-    name: 'Nuke'
+  terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
 
@@ -20,21 +20,29 @@ jobs:
         shell: bash
 
     steps:
-    - name: Test
-      run: echo ${{ secrets.OIDC_ROLE }}
-      
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Test
+      run: echo ${{ secrets.oidc_role }}
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ secrets.oidc_role }}
         aws-region: us-west-2
+        
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
 
-    - name: Install Nuke
-      run: |
-        AWS_NUKE_VERSION=v2.17.0 sh -c 'wget -c https://github.com/rebuy-de/aws-nuke/releases/download/$AWS_NUKE_VERSION/aws-nuke-$AWS_NUKE_VERSION-linux-amd64.tar.gz -O - | sudo tar -xz && sudo mv aws-nuke-$AWS_NUKE_VERSION-linux-amd64 /usr/local/bin/aws-nuke'
-        aws-nuke version
-        echo "Christopher"
+    # - name: Install Nuke
+    #   run: |
+    #     AWS_NUKE_VERSION=v2.17.0 sh -c 'wget -c https://github.com/rebuy-de/aws-nuke/releases/download/$AWS_NUKE_VERSION/aws-nuke-$AWS_NUKE_VERSION-linux-amd64.tar.gz -O - | sudo tar -xz && sudo mv aws-nuke-$AWS_NUKE_VERSION-linux-amd64 /usr/local/bin/aws-nuke'
+    #     aws-nuke version
+    #     echo "Christopher"
