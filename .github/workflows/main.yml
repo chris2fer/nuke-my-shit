@@ -27,10 +27,12 @@ jobs:
       run: echo ${{ secrets.oidc_role }}
       
     - name: Configure AWS credentials
+      id: root_creds
       uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ secrets.oidc_role }}
         aws-region: us-west-2
+        output-credentials: true
 
     - name: Create Data File
       run: |
@@ -66,7 +68,9 @@ jobs:
         aws-region: us-west-2
         role-to-assume: ${{ secrets.aft_nuke_role }}
         role-session-name: GithubAction
-        role-chaining: true
+        aws-access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ steps.creds.outputs.aws-secret-access-key }}
+        aws-session-token: ${{ steps.creds.outputs.aws-session-token }}
         
     - name: Run Nuke Riot Prod
       run: |
