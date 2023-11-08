@@ -12,6 +12,10 @@ accounts:
     - common
   {% endfor %}
 
+resource-types:
+  excludes:
+    - IAMSAMLProvider
+    
 presets:
   terraform:
     filters:
