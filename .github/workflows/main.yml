@@ -67,11 +67,9 @@ jobs:
       with:
         aws-region: us-west-2
         role-to-assume: ${{ secrets.aft_nuke_role }}
-        role-session-name: GithubAction
-        role-chaining: true
-        aws-access-key-id: ${{ steps.creds.outputs.aws-access-key-id }}
-        aws-secret-access-key: ${{ steps.creds.outputs.aws-secret-access-key }}
-        aws-session-token: ${{ steps.creds.outputs.aws-session-token }}
+        aws-access-key-id: ${{ steps.root_creds.outputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ steps.root_creds.outputs.aws-secret-access-key }}
+        aws-session-token: ${{ steps.root_creds.outputs.aws-session-token }}
         
     - name: Run Nuke Riot Prod
       run: |
