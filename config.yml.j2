@@ -16,6 +16,7 @@ accounts:
 resource-types:
   excludes:
     - IAMSAMLProvider
+    - IAMOpenIDConnectProvider
     - AppStreamImage
     
 presets:
@@ -34,6 +35,8 @@ presets:
         value: "alias/aws/*"
       IAMRole:
       - "OrganizationAccountAccessRole"
+      - property: tag:protected
+        value: true 
       IAMRolePolicy:
       - property: tag:role:protected
         value: "true"
@@ -94,7 +97,7 @@ presets:
         type: glob
         value: "StackSet-AWSControlTower*"
       CloudWatchEventsRule:
-      - "Rule: AWSControlTowerManagedRule
+      - "Rule: AWSControlTowerManagedRule"
       - "Rule: StepFunctionsGetEventForCodeBuildStartBuildRule"
       - "Rule: StepFunctionsGetEventsForStepFunctionsExecutionRule"
       - "Rule: aws-controltower-ConfigComplianceChangeEventRule"
