@@ -18,6 +18,15 @@ resource-types:
     - IAMSAMLProvider
     - IAMOpenIDConnectProvider
     - AppStreamImage
+    - MachineLearningBranchPrediction
+    - MachineLearningMLModel
+    - MachineLearningEvaluation
+    - MachineLearningDataSource
+    - FMSPolicy
+    - FMSNotificationChannel
+    - RoboMakerFleet
+    - RoboMakerRobot
+    - RoboMakerDeploymentJob
     
 presets:
   terraform:
@@ -49,24 +58,33 @@ presets:
 
   controltower:
     filters:
-    IAMRole:
+      IAMRole:
       - "OrganizationAccountAccessRole"
       - property: tag:managed_by
         value: "AFT"
       - property: tag:Name
         type: glob
         value: "aft*"
-      - property: tag:Name
+      - property: Name
         type: glob
         value: "aws-controltower*"
       - property: Name
         type: glob
         value: "AWSControlTower*"
+      IAMRolePolicy:
+      - property: role:RoleName
+        type: glob
+        value: "aws-controltower*"
+      IAMRolePolicyAttachment:
+      - property: RoleName
+        type: glob
+        value: "aws-controltower*"
       CloudWatchLogsLogGroup:
-      - /aws/lambda/aws-controltower-NotificationForwarder
-      - StackSet-AWSControlTowerBP-VPC-ACCOUNT-FACTORY-*
+      - "/aws/lambda/aws-controltower-NotificationForwarder"
+      - "StackSet-AWSControlTowerBP-VPC-ACCOUNT-FACTORY-*"
       LambdaFunction:
       - "aws-controltower-NotificationForwarder"
+
       EC2VPC:
       - property: tag:Name
         value: "aws-controltower-VPC"
@@ -85,7 +103,7 @@ presets:
         value: "aws-controltower-DHCPOptionsSet"
       EC2VPCEndpoint:
       - property: tag:Name
-        value: aws-controltower-VPC
+        value: "aws-controltower-VPC"
       SSMParameter:
       - property: tag:Name
         type: glob
