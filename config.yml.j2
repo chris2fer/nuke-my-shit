@@ -80,9 +80,6 @@ presets:
       - property: ARN
         type: glob
         value: "*aws-controltower-SecurityNotifications*"
-      CloudWatchEventsRule:
-      - AWSControlTowerManagedRule
-      - aws-controltower-ConfigComplianceChangeEventRule
       ConfigServiceConfigRule:
       - "AWSControlTower_*"
       CloudWatchEventsTarget:
@@ -96,3 +93,10 @@ presets:
       - property: Name
         type: glob
         value: "StackSet-AWSControlTower*"
+      CloudWatchEventsRule:
+      - "Rule: AWSControlTowerManagedRule
+      - "Rule: StepFunctionsGetEventForCodeBuildStartBuildRule"
+      - "Rule: StepFunctionsGetEventsForStepFunctionsExecutionRule"
+      - "Rule: aws-controltower-ConfigComplianceChangeEventRule"
+      SFNStateMachine:
+      - "*aft-account-provisioning-customizations"
