@@ -7,6 +7,21 @@ account-blocklist:
 
 accounts:
   {% for act in accounts %}
-  {{act}}: {}
+  {{act}}:
+    presets:
+    - common
   {% endfor %}
+
+presets:
+  terraform:
+    filters:
+      S3Bucket:
+      - type: glob
+        value: "my-statebucket-*"
+      DynamoDBTable:
+      - "terraform-lock"
+  common:
+    filters:
+      IAMRole:
+      - "OrganizationAccountAccessRole"
   
