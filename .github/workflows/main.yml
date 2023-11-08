@@ -56,6 +56,18 @@ jobs:
         role-session-name: GithubAction
         role-chaining: true
         
-    - name: Run Nuke
+    - name: Run Nuke AFT
+      run: |
+        aws-nuke -c config.yml --force --force-sleep 5
+
+    - name: Configure other AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: us-west-2
+        role-to-assume: ${{ secrets.aft_nuke_role }}
+        role-session-name: GithubAction
+        role-chaining: true
+        
+    - name: Run Nuke Riot Prod
       run: |
         aws-nuke -c config.yml --force --force-sleep 5
