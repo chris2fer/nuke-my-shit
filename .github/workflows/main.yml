@@ -33,14 +33,17 @@ jobs:
         role-to-assume: ${{ secrets.oidc_role }}
         aws-region: us-west-2
 
+    - name: Create Data File
+      run: |
+        echo '{"accounts":[${{ vars.TARGET_ACCOUNT }}],"blocked_account":"${{ vars.BLOCKED_ACCOUNT }}"}' >> data.json
+        
     - name: Create Config
       uses: ajeffowens/jinja2-action@90dab3da2215932ea86d2875224f06bbd6798617
       with:
         template: config.yml.j2
         output_file: config.yml
-        variables: |
-          blocked_account=${{ vars.BLOCKED_ACCOUNT }}
-          accounts=["${{ vars.TARGET_ACCOUNT }}","123412341234"]
+        data_file: data.json
+        data_format: json
           
     - name: Install Nuke
       run: |
