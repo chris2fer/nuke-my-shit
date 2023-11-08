@@ -61,6 +61,7 @@ jobs:
     - name: Run Nuke Riot Prod
       run: |
         aws-nuke -c config.yml --force --force-sleep 5 -q --no-dry-run
+      continue-on-error: true
 
     - name: Configure other AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -74,3 +75,4 @@ jobs:
     - name: Run Nuke AFT
       run: |
         aws-nuke -c config.yml --force --force-sleep 5 -q --no-dry-run
+      continue-on-error: true
