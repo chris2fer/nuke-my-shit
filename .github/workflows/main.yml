@@ -48,6 +48,7 @@ jobs:
     - name: Install Nuke
       run: |
         AWS_NUKE_VERSION=v2.17.0 sh -c 'wget -c https://github.com/rebuy-de/aws-nuke/releases/download/$AWS_NUKE_VERSION/aws-nuke-$AWS_NUKE_VERSION-linux-amd64.tar.gz -O - | sudo tar -xz && sudo mv aws-nuke-$AWS_NUKE_VERSION-linux-amd64 /usr/local/bin/aws-nuke'
-        cat config.yml
+
+    - name: Run Nuke
+      run: |
         aws-nuke -c config.yml --force --force-sleep 5
-        echo "Christopher"
