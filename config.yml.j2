@@ -49,6 +49,11 @@ presets:
         value: true
       - property: Path
         value: "/aws-reserved/sso.amazonaws.com/"
+      IAMRolePolicyAttachment:
+      - property: tag:role:protected
+        value: "true"
+      - property: RoleName
+        value: "OrganizationAccountAccessRole"
       IAMRolePolicy:
       - property: tag:role:protected
         value: "true"
@@ -76,16 +81,41 @@ presets:
       - property: role:RoleName
         type: glob
         value: "aws-controltower*"
+      - property: tag:role:managed_by
+        value: "AFT"
       IAMRolePolicyAttachment:
       - property: RoleName
         type: glob
         value: "aws-controltower*"
+      - property: RoleName
+        value: "AWSControlTower_VPCFlowLogsRole"
       CloudWatchLogsLogGroup:
-      - "/aws/lambda/aws-controltower-NotificationForwarder"
-      - "StackSet-AWSControlTowerBP-VPC-ACCOUNT-FACTORY-*"
+      - type: glob
+        value: "/aws/lambda/aws-controltower*"
+      - type: glob
+        value: "python-layer-builder-aft*"
+      - type: glob
+        value: "StackSet-AWSControlTowerBP-VPC-ACCOUNT-FACTORY-*"
       LambdaFunction:
       - "aws-controltower-NotificationForwarder"
-
+      ConfigServiceConfigRule:
+      - "AWSControlTower_*"
+      - type: glob
+        value: "AWSControlTower*"
+      SSMParameter:
+      - property: Name
+        type: glob
+        value: "/aft/*"
+      - property: tag:Name
+        type: glob
+        value: "/aft/*"
+      SNSTopic:
+      - property: TopicArn
+        type: glob
+        value: "*aws-controltower*"
+      - property: ARN
+        type: glob
+        value: "*aws-controltower-SecurityNotifications*"
       EC2VPC:
       - property: tag:Name
         value: "aws-controltower-VPC"
@@ -95,6 +125,8 @@ presets:
         value: "aws-controltower-*"
       ConfigServiceConfigurationRecorder:
       - "aws-controltower-BaselineConfigRecorder"
+      ConfigServiceDeliveryChannel:
+      - "aws-controltower-BaselineConfigDeliveryChannel"
       EC2RouteTable:
       - property: tag:Name
         type: glob
@@ -105,24 +137,16 @@ presets:
       EC2VPCEndpoint:
       - property: tag:Name
         value: "aws-controltower-VPC"
-      SSMParameter:
-      - property: tag:Name
-        type: glob
-        value: "/aft/*"
-      SNSTopic:
-      - property: ARN
-        type: glob
-        value: "*aws-controltower-SecurityNotifications*"
       SNSSubscription:
       - type: glob
-        value: "*aws-controltower-SecurityNotifications*"
-      ConfigServiceConfigRule:
-      - "AWSControlTower_*"
+        value: "*aws-controltower-SecurityNotifications*"      
       CloudWatchEventsTarget:
-      - property: Rule
-        value: "Rule: AWSControlTowerManagedRule
-      - property: Rule
-        value: aws-controltower-ConfigComplianceChangeEventRule
+      - type: glob
+        value: "Rule: AWSControlTowerManagedRule*"
+      - type: glob
+        value: "Rule: aws-controltower-ConfigComplianceChangeEventRule*"
+      - type: glob
+        value: "Rule: StepFunctionsGetEvent*"
       CloudTrailTrail:
       - aws-controltower-BaselineCloudTrail
       CloudFormationStack:
@@ -135,7 +159,8 @@ presets:
       - "Rule: StepFunctionsGetEventsForStepFunctionsExecutionRule"
       - "Rule: aws-controltower-ConfigComplianceChangeEventRule"
       SFNStateMachine:
-      - "*aft-account-provisioning-customizations"
+      - type: glob
+        value: "*aft-account-provisioning-customizations"
       CodePipelinePipeline:
       - type: glob
         value: "*customizations*"
