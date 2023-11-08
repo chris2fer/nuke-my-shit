@@ -15,6 +15,7 @@ accounts:
 resource-types:
   excludes:
     - IAMSAMLProvider
+    - AppStreamImage
     
 presets:
   terraform:
@@ -26,6 +27,71 @@ presets:
       - "terraform-lock"
   common:
     filters:
+      KMSAlias:
+      - property: Name
+        type: glob
+        value: "alias/aws/*"
       IAMRole:
       - "OrganizationAccountAccessRole"
-  
+      IAMRolePolicy:
+      - property: tag:role:protected
+        value: "true"
+      ElasticacheCacheParameterGroup:
+      - property: GroupName
+        type: glob
+        value: "default*"
+
+  controltower:
+    filters:
+      CloudWatchLogsLogGroup:
+      - /aws/lambda/aws-controltower-NotificationForwarder
+      - StackSet-AWSControlTowerBP-VPC-ACCOUNT-FACTORY-*
+      LambdaFunction:
+      - aws-controltower-NotificationForwarder
+      EC2VPC:
+      - property: tag:Name
+        value: "aws-controltower-VPC"
+      EC2Subnet:
+      - property: tag:Name
+        type: glob
+        value: "aws-controltower-*"
+      ConfigServiceConfigurationRecorder:
+      - aws-controltower-BaselineConfigRecorder
+      EC2RouteTable:
+      - property: tag:Name
+        type: glob
+        value: "aws-controltower-PrivateSubnet*"
+      EC2DHCPOption:
+      - property: tag:Name
+        value: "aws-controltower-DHCPOptionsSet"
+      EC2VPCEndpoint:
+      - property: tag:Name
+        value: aws-controltower-VPC
+      SSMParameter:
+      - property: tag:Name
+        type: glob
+        value: "/aft/*"
+      SNSTopic:
+      - property: ARN
+        type: glob
+        value: "*aws-controltower-SecurityNotifications*"
+      SNSSubscription:
+      - property: ARN
+        type: glob
+        value: "*aws-controltower-SecurityNotifications*"
+      CloudWatchEventsRule:
+      - AWSControlTowerManagedRule
+      - aws-controltower-ConfigComplianceChangeEventRule
+      ConfigServiceConfigRule:
+      - "AWSControlTower_*"
+      CloudWatchEventsTarget:
+      - property: Rule
+        value: AWSControlTowerManagedRule
+      - property: Rule
+        value: aws-controltower-ConfigComplianceChangeEventRule
+      CloudTrailTrail:
+      - aws-controltower-BaselineCloudTrail
+      CloudFormationStack:
+      - property: Name
+        type: glob
+        value: "StackSet-AWSControlTower*"
