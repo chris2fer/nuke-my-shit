@@ -52,7 +52,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-region: us-west-2
-        role-to-assume: ${{ secrets.aft_nuke_role }}
+        role-to-assume: ${{ secrets.mt_riot_prd_nuke_role }}
         role-session-name: GithubAction
         role-chaining: true
         
