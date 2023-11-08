@@ -89,6 +89,8 @@ presets:
         value: "aws-controltower*"
       - property: RoleName
         value: "AWSControlTower_VPCFlowLogsRole"
+      - property: RoleName
+        value: "AWSControlTowerExecution"
       CloudWatchLogsLogGroup:
       - type: glob
         value: "/aws/lambda/aws-controltower*"
@@ -96,6 +98,9 @@ presets:
         value: "python-layer-builder-aft*"
       - type: glob
         value: "StackSet-AWSControlTowerBP-VPC-ACCOUNT-FACTORY-*"
+      - property: logGroupName
+        type: glob
+        value: "/aws/lambda/aft*"
       LambdaFunction:
       - "aws-controltower-NotificationForwarder"
       ConfigServiceConfigRule:
@@ -110,7 +115,7 @@ presets:
         type: glob
         value: "/aft/*"
       SNSTopic:
-      - property: TopicArn
+      - property: TopicARN
         type: glob
         value: "*aws-controltower*"
       - property: ARN

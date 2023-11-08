@@ -58,7 +58,7 @@ jobs:
         role-session-name: GithubAction
         role-chaining: true
         
-    - name: Run Nuke AFT
+    - name: Run Nuke Riot Prod
       run: |
         aws-nuke -c config.yml --force --force-sleep 5 -q
 
@@ -71,6 +71,6 @@ jobs:
         aws-secret-access-key: ${{ steps.root_creds.outputs.aws-secret-access-key }}
         aws-session-token: ${{ steps.root_creds.outputs.aws-session-token }}
         
-    - name: Run Nuke Riot Prod
+    - name: Run Nuke AFT
       run: |
         aws-nuke -c config.yml --force --force-sleep 5 -q
