@@ -1,1 +1,1 @@
-![Nuke My Shit](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![Nuke My Shit](https://github.com/chris2fer/nuke-my-shit/actions/workflows/main.yml/badge.svg)
