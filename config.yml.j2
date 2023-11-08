@@ -27,6 +27,7 @@ resource-types:
     - RoboMakerFleet
     - RoboMakerRobot
     - RoboMakerDeploymentJob
+    - OSPackage
     
 presets:
   terraform:
@@ -119,7 +120,7 @@ presets:
       - "AWSControlTower_*"
       CloudWatchEventsTarget:
       - property: Rule
-        value: AWSControlTowerManagedRule
+        value: "Rule: AWSControlTowerManagedRule
       - property: Rule
         value: aws-controltower-ConfigComplianceChangeEventRule
       CloudTrailTrail:
