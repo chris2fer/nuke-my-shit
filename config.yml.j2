@@ -91,6 +91,8 @@ presets:
         value: "AWSControlTower_VPCFlowLogsRole"
       - property: RoleName
         value: "AWSControlTowerExecution"
+      - property: tag:role:managed_by
+        value: "AFT"
       CloudWatchLogsLogGroup:
       - type: glob
         value: "/aws/lambda/aws-controltower*"
@@ -110,7 +112,7 @@ presets:
       SSMParameter:
       - property: Name
         type: glob
-        value: "/aft/*"
+        value: "*aft*"
       - property: tag:Name
         type: glob
         value: "/aft/*"
