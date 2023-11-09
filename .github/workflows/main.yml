@@ -75,7 +75,7 @@ jobs:
         
     - name: Run Nuke Riot Prod
       run: |
-        aws-nuke -c config.yml --force --force-sleep 5 -q --no-dry-run
+        aws-nuke -c config.yml --force --force-sleep 5 -q
       continue-on-error: true
 
     - name: Configure other AWS Credentials
@@ -89,7 +89,7 @@ jobs:
         
     - name: Run Nuke AFT
       run: |
-        aws-nuke -c config.yml --force --force-sleep 5 -q --no-dry-run
+        aws-nuke -c config.yml --force --force-sleep 5 -q
       continue-on-error: true
 
     - name: pushover-actions
@@ -101,3 +101,17 @@ jobs:
         status: ${{ job.status }}
         title: 'Repo. Activity Notification'
         message: 'Hello World!'
+
+    - name: Configure other AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: us-west-2
+        role-to-assume: ${{ secrets.mt_anaconda_nuke_role }}
+        aws-access-key-id: ${{ steps.root_creds.outputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ steps.root_creds.outputs.aws-secret-access-key }}
+        aws-session-token: ${{ steps.root_creds.outputs.aws-session-token }}
+
+    - name: Run Nuke Anaconda
+      run: |
+        aws-nuke -c config.yml --force --force-sleep 5 -q
+      continue-on-error: true
