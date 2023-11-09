@@ -5,15 +5,14 @@ on:
     - cron:  '0 9 * * 1'
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
+      DryRun:
+        description: 'Run the Nuke job in report mode'
         required: true
-        default: 'warning'
+        default: 'Report'
         type: choice
         options:
-        - info
-        - warning
-        - debug
+        - Nuke
+        - Report
       tags:
         description: 'Test scenario tags'
         required: false
@@ -92,16 +91,6 @@ jobs:
         aws-nuke -c config.yml --force --force-sleep 5 -q
       continue-on-error: true
 
-    - name: pushover-actions
-      uses: umahmood/pushover-actions@main
-      env:
-        PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_TOKEN }}
-        PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_TOKEN }}
-      with:
-        status: ${{ job.status }}
-        title: 'Repo. Activity Notification'
-        message: 'Hello World!'
-
     - name: Configure other AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -115,3 +104,14 @@ jobs:
       run: |
         aws-nuke -c config.yml --force --force-sleep 5 -q
       continue-on-error: true
+
+    - name: Notify
+      if: ${{ failure() }}
+      uses: umahmood/pushover-actions@main
+      env:
+        PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_TOKEN }}
+        PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_TOKEN }}
+      with:
+        status: ${{ job.status }}
+        title: 'Nuke-My-Shit Failure'
+        message: 'The automated Github action has encountered a failure'
