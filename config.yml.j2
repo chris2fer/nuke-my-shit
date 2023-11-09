@@ -124,6 +124,8 @@ presets:
       - property: ARN
         type: glob
         value: "*aws-controltower-SecurityNotifications*"
+      - property: tag:protected
+        value: "true"
       EC2VPC:
       - property: tag:Name
         value: "aws-controltower-VPC"
@@ -166,6 +168,8 @@ presets:
       - "Rule: StepFunctionsGetEventForCodeBuildStartBuildRule"
       - "Rule: StepFunctionsGetEventsForStepFunctionsExecutionRule"
       - "Rule: aws-controltower-ConfigComplianceChangeEventRule"
+      - property: tag:protected
+        value: "true"
       SFNStateMachine:
       - type: glob
         value: "*aft-account-provisioning-customizations"
